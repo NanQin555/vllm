@@ -224,3 +224,9 @@ ep_kernels_workspace/
 
 # Allow tracked library source folders under submodules (e.g., benchmarks/lib)
 !vllm/benchmarks/lib/
+
+# Allow tracked library source folders under submodules (e.g., benchmarks/lib)
+!vllm/benchmarks/lib/
+
+# Cuda kerring
+cuda-keyring_*
