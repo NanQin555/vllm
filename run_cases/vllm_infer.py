@@ -1,5 +1,5 @@
 from vllm import LLM, SamplingParams
-
+import torch
 prompts = [
     "Hello, my name is",
     "The future of AI is",
@@ -12,7 +12,7 @@ Qwen3_8B = "/home/nanqinw/models/Qwen3-8B/snapshots/9c925d64d72725edaf899c6cb9c3
 llm = LLM(model=Qwen3_8B)
 
 outputs = llm.generate(prompts, sampling_params)
-
+torch.cuda.synchronize()
 # Print the outputs.
 for output in outputs:
     prompt = output.prompt

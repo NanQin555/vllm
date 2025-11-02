@@ -103,6 +103,12 @@ __device__ void paged_attention_kernel(
     const float* k_scale, const float* v_scale, const int tp_rank,
     const int blocksparse_local_blocks, const int blocksparse_vert_stride,
     const int blocksparse_block_size, const int blocksparse_head_sliding_step) {
+
+  if (threadIdx.x == 0 && blockIdx.x == 0) {
+      printf("[paged_attention_kernel] launched: HEAD_SIZE=%d\n", HEAD_SIZE);
+  }
+
+
   const int seq_idx = blockIdx.y;
   const int partition_idx = blockIdx.z;
   const int max_num_partitions = gridDim.z;
@@ -519,6 +525,7 @@ __global__ void paged_attention_v1_kernel(
       kv_head_stride, k_scale, v_scale, tp_rank, blocksparse_local_blocks,
       blocksparse_vert_stride, blocksparse_block_size,
       blocksparse_head_sliding_step);
+
 }
 
 // Grid: (num_heads, num_seqs, max_num_partitions).
