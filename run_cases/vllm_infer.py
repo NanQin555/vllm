@@ -1,5 +1,5 @@
+import vllm.envs as envs
 from vllm import LLM, SamplingParams
-import torch
 prompts = [
     "Hello, my name is",
     "The future of AI is",
@@ -10,9 +10,16 @@ sampling_params = SamplingParams(temperature=0.8, top_p=0.95)
 
 Qwen3_8B = "/home/nanqinw/models/Qwen3-8B/snapshots/9c925d64d72725edaf899c6cb9c377fd0709d9c5"
 llm = LLM(model=Qwen3_8B)
+if envs.VLLM_TORCH_PROFILER_DIR:
+    llm.start_profile()
+
 
 outputs = llm.generate(prompts, sampling_params)
-torch.cuda.synchronize()
+
+if envs.VLLM_TORCH_PROFILER_DIR:
+    llm.stop_profile()  
+
+
 # Print the outputs.
 for output in outputs:
     prompt = output.prompt
